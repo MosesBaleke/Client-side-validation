@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lets go</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<style>
+  :root {
+	/* COLORS */
+	--white: #e9e9e9;
+	--gray: #333;
+	--blue: #0367a6;
+	--lightblue: #008997;
+	--spacing1: 4px;
+	--spacing2: 8px;
+	--spacing3: 16px;
+	--hue: 400;
+	--background1: hsl(214, 14%, 20%);
+	--background2: hsl(214, 14%, 13%);
+	--background3: hsl(214, 14%, 5%);
+	--brand1: hsl(var(--hue) 80% 60%);
+	--brand2: hsl(var(--hue) 80% 50%);
+	--text1: hsl(0, 0%, 100%);
+	--text2: hsl(var(--hue), 4%, 80%);
+	--text3: hsl(var(--hue), 4%, 5%);
+	--error: hsl(359, 83%, 59%);
+	font-size: 1.25rem;
+
+	/* RADII */
+	--button-radius: 0.7rem;
+
+	/* SIZES */
+	--max-width: 758px;
+	--max-height: 420px;
+
+	font-size: 16px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+		Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+body {
+	align-items: center;
+	background-color: var(--white);
+	background: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/1f03a18c-a136-4300-a5a5-fb582870c695/dc57avh-a931d6c9-41c6-474b-9641-2bd82ba6785f.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzFmMDNhMThjLWExMzYtNDMwMC1hNWE1LWZiNTgyODcwYzY5NVwvZGM1N2F2aC1hOTMxZDZjOS00MWM2LTQ3NGItOTY0MS0yYmQ4MmJhNjc4NWYuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.B9STxVXth6oUd87roM9bJslFCkozIEdGnevmvvoUJzE");
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: grid;
+	height: 100vh;
+	place-items: center;
+}
+
+.form__title {
+	font-weight: 300;
+	margin: 0;
+	margin-bottom: 1.25rem;
+}
+
+.link {
+	color: var(--gray);
+	font-size: 0.9rem;
+	margin: 1.5rem 0;
+	text-decoration: none;
+}
+
+.container {
+	background-color: var(--white);
+	border-radius: var(--button-radius);
+	box-shadow: 0 0.9rem 1.7rem rgba(0, 0, 0, 0.25),
+		0 0.7rem 0.7rem rgba(0, 0, 0, 0.22);
+	height: var(--max-height);
+	max-width: var(--max-width);
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+
+.container__form {
+	height: 100%;
+	position: absolute;
+	top: 0;
+	transition: all 0.6s ease-in-out;
+}
+
+.container--signin {
+	left: 0;
+	width: 50%;
+	z-index: 2;
+}
+
+.container.right-panel-active .container--signin {
+	transform: translateX(100%);
+}
+
+.container--signup {
+	left: 0;
+	opacity: 0;
+	width: 50%;
+	z-index: 1;
+}
+
+.container.right-panel-active .container--signup {
+	animation: show 0.6s;
+	opacity: 1;
+	transform: translateX(100%);
+	z-index: 5;
+}
+
+.container__overlay {
+	height: 100%;
+	left: 50%;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	transition: transform 0.6s ease-in-out;
+	width: 50%;
+	z-index: 100;
+}
+
+.container.right-panel-active .container__overlay {
+	transform: translateX(-100%);
+}
+
+.overlay {
+	background-color: var(--lightblue);
+	background: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/1f03a18c-a136-4300-a5a5-fb582870c695/dc57avh-a931d6c9-41c6-474b-9641-2bd82ba6785f.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzFmMDNhMThjLWExMzYtNDMwMC1hNWE1LWZiNTgyODcwYzY5NVwvZGM1N2F2aC1hOTMxZDZjOS00MWM2LTQ3NGItOTY0MS0yYmQ4MmJhNjc4NWYuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.B9STxVXth6oUd87roM9bJslFCkozIEdGnevmvvoUJzE");
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100%;
+	left: -100%;
+	position: relative;
+	transform: translateX(0);
+	transition: transform 0.6s ease-in-out;
+	width: 200%;
+}
+
+.container.right-panel-active .overlay {
+	transform: translateX(50%);
+}
+
+.overlay__panel {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	justify-content: center;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	transform: translateX(0);
+	transition: transform 0.6s ease-in-out;
+	width: 50%;
+}
+
+.overlay--left {
+	transform: translateX(-20%);
+}
+
+.container.right-panel-active .overlay--left {
+	transform: translateX(0);
+}
+
+.overlay--right {
+	right: 0;
+	transform: translateX(0);
+}
+
+.container.right-panel-active .overlay--right {
+	transform: translateX(20%);
+}
+
+.btn {
+	background-color: grey;
+	background-image: linear-gradient(90deg, silver 0%, grey 74%);
+	border-radius: 20px;
+	border: 1px solid silver;
+	color: var(--white);
+	cursor: pointer;
+	font-size: 0.8rem;
+	font-weight: bold;
+	  box-shadow: 10px 10px 6px black;
+	letter-spacing: 0.1rem;
+	padding: 0.9rem 4rem;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+.form > .btn {
+	margin-top: 1.5rem;
+}
+
+.btn:active {
+	transform: scale(0.95);
+}
+
+.btn:focus {
+	outline: none;
+}
+
+.form {
+	background-color: var(--white);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 3rem;
+	height: 100%;
+	text-align: center;
+}
+
+@keyframes show {
+	0%,
+	49.99% {
+		opacity: 0;
+		z-index: 1;
+	}
+
+	50%,
+	100% {
+		opacity: 1;
+		z-index: 5;
+	}
+}
+
+a {
+	color: red;
+	font-size: 0.8em;
+}
+
+form  div {
+		display: flex;
+		flex-direction: column;
+	}
+
+	form .greeting {
+		font-size: 0.8em;
+		color: var(--text2);
+	}
+
+	form .error {
+		color: var(--error);
+		font-size: 0.8em;
+	}
+
+	form .active-error {
+		color: var(--error);
+   
+	}
+
+  form .active-error label {
+    color: var(--error);
+  }
+
+
+  form button,
+	input {
+		border: 4px transparent;
+		padding: var(--spacing2);
+		margin: 8px auto;
+		border-radius: var(--spacing1);
+		border: 4px solid transparent;
+	}
+
+	form .active-error + input:not(:focus) {
+		border-color: var(--error);
+	}
+
+  form button {
+		color: var(--text3);
+		background: var(--brand1);
+		cursor: pointer;
+		transition: all cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+		font-size: 1em;
+		padding: var(--spacing1);
+		
+	}
+
+
+form button:hover {
+  background: var(--brand2);
+}
+
+form label {
+  font-size: 1.1em;
+  color: black;
+}
+
+.container {
+	background: var(--background2);
+	padding: var(--spacing3);
+	border-radius: var(--spacing2);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing3);
+	min-width: max(400px, 50vw);
+}
+
+.pen-description {
+	max-width: min-content;
+}
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+
+
+.form-checkbox {
+	display: inline-block;
+}
+
+.form-checkbox	label {
+		margin: 0 6px 0;
+		font-size: 0.72em;
+}
+
+</style>
+
+<body>
+  <div class="container right-panel-active">
+    <!-- Sign In -->
+    <div class="container__form container--signup">
+      <form action="#" class="form" id="form1" onsubmit="onSubmit(event)" novalidate>
+        <div>
+          <div>
+            <label for='username' minlength="4">Username or Email</label>
+            <span class="error" aria-live="polite"></span>
+          </div>
+          <input id='username' type="text" required placeholder="username"/>
+        </div>
+        <div>
+          <div>
+            <label for='password'>Password</label>
+            <span class="error" aria-live="polite"></span>
+          </div>
+          <input id='password' type='password' required minlength="8" placeholder="username"/>
+          <a href='#'>Forgot your password?</a>
+        </div>
+        <button type="submit">
+          Login
+        </button>
+        <span aria-live="assertive" id="js-loadingMsg" class="sr-only">
+          <!-- Use JavaScript to inject the the loading message -->
+        </span>
+      </form>
+    </div>
+  
+    <!-- Sign Up -->
+    <div class="container__form container--signin">
+      <form action="#" class="form" id="form2" onsubmit="onSubmit(event)">
+  
+        <div>
+          <div>
+            <label for='username' minlength="4">Username or Email</label>
+            <span class="error" aria-live="polite"></span>
+          </div>
+          <input id='username' type="text" required placeholder="username"/>
+        </div>
+        <div>
+          <div>
+            <label for='email' minlength="4">Email</label>
+            <span class="error" aria-live="polite"></span>
+          </div>
+          <input id='email' type="text" required placeholder="username@abc.com" pattern=".+@beststartupever\.com"
+          title="Enter a valid Email Address including @ and ."/>
+        </div>
+        <div>
+          <div>
+            <label for='password'>Password</label>
+            <span class="error" aria-live="polite"></span>
+          </div>
+          <input id='password' type='password' required minlength="8" placeholder="password"/>
+        </div>
+        <div class="form-checkbox">
+         <input id="confirm-terms" type="checkbox" name="confirm" value="yes" class="checkbox">
+        
+          <label for="confirm-terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+        </div>
+        <button type="submit">
+          Sign Up
+        </button>
+        <span aria-live="assertive" id="js-loadingMsg" class="sr-only">
+          <!-- Use JavaScript to inject the the loading message -->
+        </span>
+      </form>
+    </div>
+  
+    <!-- Overlay -->
+    <div class="container__overlay">
+      <div class="overlay">
+        <div class="overlay__panel overlay--left">
+          <button class="btn" id="signIn">Sign Up</button>
+        </div>
+        <div class="overlay__panel overlay--right">
+          <button class="btn" id="signUp">Sign In</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<script >
+
+const signInBtn = document.getElementById("signIn");
+const signUpBtn = document.getElementById("signUp");
+const fistForm = document.getElementById("form1");
+const secondForm = document.getElementById("form2");
+const container = document.querySelector(".container");
+
+signInBtn.addEventListener("click", () => {
+	container.classList.remove("right-panel-active");
+});
+
+signUpBtn.addEventListener("click", () => {
+	container.classList.add("right-panel-active");
+});
+
+fistForm.addEventListener("submit", (e) => e.preventDefault());
+secondForm.addEventListener("submit", (e) => e.preventDefault());
+
+const form = document.getElementsByTagName("form")[0];
+
+const usernameLabel = document.querySelector('[for="username"]');
+const usernameError = document.querySelector('[for="username"] + .error');
+const usernameInput = document.getElementById("username");
+
+const passwordLabel = document.querySelector('[for="password"]');
+const passwordError = document.querySelector('[for="password"] + .error');
+const passwordInput = document.getElementById("password");
+
+const submitButton = document.querySelector('button[type="submit"]');
+
+const ssrLoadingRead = document.getElementById("js-loadingMsg");
+
+function timeout(ms) {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+let isSubmitting = false;
+async function onSubmit(event) {
+	event.preventDefault();
+	if (isSubmitting) return;
+	isSubmitting = true;
+	usernameLabel.parentElement.classList.remove("active-error");
+	usernameError.textContent = "";
+	passwordLabel.parentElement.classList.remove("active-error");
+	passwordError.textContent = "";
+	if (!passwordInput.validity.valid) {
+		passwordLabel.parentElement.classList.add("active-error");
+		passwordError.textContent = "- Invalid Password";
+		passwordInput.focus();
+	}
+	if (!usernameInput.validity.valid) {
+		usernameLabel.parentElement.classList.add("active-error");
+		usernameError.textContent = "- Invalid Username";
+		usernameInput.focus();
+	}
+	if (passwordInput.validity.valid && usernameInput.validity.valid) {
+		submitButton.textContent = "Loading...";
+		ssrLoadingRead.textContent = "Logging in. Please wait...";
+		await timeout(2000);
+		ssrLoadingRead.textContent = "";
+		submitButton.textContent = "Success";
+	}
+	// probably have error messages for each `.validity.tooShort` etc...
+	isSubmitting = false;
+}
+
+</script>
+
+</body>
+</html>
